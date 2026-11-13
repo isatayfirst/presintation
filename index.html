@@ -288,7 +288,7 @@ nav { flex: none; display: flex; align-items: center; justify-content: space-bet
     <div class="inner">
       <div class="head">
         <div class="eyebrow">Код · 1-бөлім</div>
-        <h1>Айнымалылар және салыстыру</h1>
+        <h1>Айнымалылар және солдан оңға өту</h1>
       </div>
       <div class="code-grid roomy" style="align-content:center;">
         <div class="block t1">
@@ -300,13 +300,16 @@ nav { flex: none; display: flex; align-items: center; justify-content: space-bet
           <p><code>start</code> пен <code>end</code> әлі сұрыпталмаған бөліктің сол және оң шекарасын сақтайды. <code>swapped</code> соңғы өтуде алмастыру болған-болмағанын есте ұстайды.</p>
         </div>
         <div class="block t2">
-          <div class="tag"><b>2</b>Салыстыру</div>
+          <div class="tag"><b>2</b>Солдан оңға</div>
 <pre><code class="py">    while swapped:
         swapped = False
-        # солдан оңға қарай өту
+        # солдан оңға өтіп, көршілерді салыстыру
         for i in range(start, end):
-            if arr[i] &gt; arr[i + 1]:</code></pre>
-          <p>Цикл солдан оңға жүріп, әр элементті оң жақтағы көршісімен салыстырады. Сол жақтағы элемент үлкен болса, бұл жұп дұрыс ретте тұрған жоқ.</p>
+            if arr[i] &gt; arr[i + 1]:
+                # алмастыру
+                arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                swapped = True</code></pre>
+          <p>Цикл солдан оңға жүріп, көрші екі элементті салыстырады. Сол жағы үлкен болса, олардың орнын алмастырып, <code>swapped = True</code> деп белгілейді.</p>
         </div>
       </div>
     </div>
@@ -317,20 +320,28 @@ nav { flex: none; display: flex; align-items: center; justify-content: space-bet
     <div class="inner">
       <div class="head">
         <div class="eyebrow">Код · 2-бөлім</div>
-        <h1>Алмастыру және нәтиже</h1>
+        <h1>Оңнан солға өту және нәтиже</h1>
       </div>
       <div class="code-grid">
         <div class="col">
           <div class="block t3">
-            <div class="tag"><b>3</b>Алмастыру</div>
-<pre><code class="py">                arr[i], arr[i + 1] = arr[i + 1], arr[i]
-                swapped = True</code></pre>
-            <p>Python-да екі элементтің орнын бір жолмен алмастыруға болады. <code>swapped = True</code> осы өтуде алмастыру болғанын, яғни жұмыс әлі бітпегенін білдіреді.</p>
+            <div class="tag"><b>3</b>Оңнан солға</div>
+<pre><code class="py">        if not swapped:
+            break       # алмастыру жоқ: массив сұрыпталған
+        end -= 1        # ең үлкен элемент өз орнында
+        swapped = False
+        # оңнан солға дәл осылай өтеміз
+        for i in range(end - 1, start - 1, -1):
+            if arr[i] &gt; arr[i + 1]:
+                arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                swapped = True
+        start += 1      # ең кіші элемент өз орнында</code></pre>
+            <p>Алмастыру болмаса, цикл тоқтайды. Әйтпесе массивті оңнан солға қарай дәл осылай аралап, ең кіші элементті басына апарамыз.</p>
           </div>
           <div class="block t4">
             <div class="tag"><b>4</b>Тізімді қайтару</div>
 <pre><code class="py">    return arr</code></pre>
-            <p>Бір өтуде бірде-бір алмастыру болмаса, цикл тоқтайды: барлық элемент өз орнында. Функция сұрыпталған тізімді қайтарады.</p>
+            <p>Цикл біткенде массив толық сұрыпталған, функция оны қайтарады.</p>
           </div>
         </div>
         <div class="block t0 full">
@@ -346,14 +357,15 @@ nav { flex: none; display: flex; align-items: center; justify-content: space-bet
         # 2. Солдан оңға өтіп, көршілерді салыстыру
         for i in range(start, end):
             if arr[i] &gt; arr[i + 1]:
-                # 3. Алмастыру
+                # алмастыру
                 arr[i], arr[i + 1] = arr[i + 1], arr[i]
                 swapped = True
+        # 3. Оңнан солға
         if not swapped:
             break       # алмастыру жоқ: массив сұрыпталған
         end -= 1        # ең үлкен элемент өз орнында
         swapped = False
-        # Оңнан солға дәл осылай өтеміз
+        # оңнан солға дәл осылай өтеміз
         for i in range(end - 1, start - 1, -1):
             if arr[i] &gt; arr[i + 1]:
                 arr[i], arr[i + 1] = arr[i + 1], arr[i]
@@ -362,7 +374,6 @@ nav { flex: none; display: flex; align-items: center; justify-content: space-bet
 
     # 4. Тізімді қайтару
     return arr</code></pre>
-          <p class="muted">Барлық бөлік бір функцияға жиналды. Оңнан солға өту де дәл сол салыстыру мен алмастыруды қайталайды.</p>
         </div>
       </div>
     </div>
