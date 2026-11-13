@@ -143,6 +143,14 @@ pre { margin: 0; background: rgba(0, 0, 0, 0.5); border: 1px solid var(--line-so
 .ln.hl { background: rgba(238, 138, 92, 0.22); box-shadow: inset 0.2rem 0 0 var(--swap); }
 .legend2 { font-size: 0.9rem !important; color: var(--muted) !important; display: flex; align-items: center; gap: 0.5rem; }
 .legend2 i { width: 1.4rem; height: 0.8rem; border-radius: 0.2rem; background: rgba(238, 138, 92, 0.35); box-shadow: inset 0.2rem 0 0 var(--swap); }
+.t5 { --tag: #c9a3ff; } .t6 { --tag: #ece8a8; }
+.dense .block { gap: 0.5rem; padding: 0.8rem 1rem; }
+.dense pre { font-size: 0.88rem; line-height: 1.5; padding: 0.55rem 0.8rem; }
+.dense .block p { font-size: 0.98rem; line-height: 1.45; }
+.dense .tag { font-size: 1.1rem; }
+.dense .full pre, .dense .full > pre { font-size: 0.74rem; line-height: 1.35; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.head .legend2 { margin-top: 0.1rem; }
 .kw { color: #ee9d6c; } .bi { color: #ece8a8; } .nu { color: #b5cd86; } .bo { color: #b5cd86; } .fn { color: #ffffff; font-weight: 600; } .c { color: #84867a; font-style: italic; }
 
 /* ---------- Навигация ---------- */
@@ -162,7 +170,9 @@ nav { flex: none; display: flex; align-items: center; justify-content: space-bet
   .card, .block { padding: 0.9rem 1rem; }
   .card h2 { font-size: 1.25rem; }
   .card p, .card li, .dirs, .roomy .block p { font-size: 1rem; }
-  .roomy pre { font-size: 0.85rem; }
+  .roomy pre, .dense pre { font-size: 0.85rem; }
+  .dense .block p { font-size: 0.95rem; }
+  .row2 { grid-template-columns: 1fr; }
   .roomy .tag, .tag { font-size: 1.1rem; }
   .tile .v { font-size: 1.9rem; }
   .stage { min-height: 13rem; padding-left: 0.4rem; padding-right: 0.4rem; }
@@ -293,25 +303,38 @@ nav { flex: none; display: flex; align-items: center; justify-content: space-bet
     <div class="inner">
       <div class="head">
         <div class="eyebrow">Код · 1-бөлім</div>
-        <h1>Айнымалылар және салыстыру</h1>
+        <h1>Дайындық және бірінші өту</h1>
+        <p class="legend2"><i></i>Қызғылт сары жол: элементтердің орны алмасатын жер</p>
       </div>
-      <div class="code-grid roomy" style="align-content:center;">
+      <div class="code-grid dense" style="align-content:center;">
         <div class="block t1">
           <div class="tag"><b>1</b>Айнымалыларды жариялау</div>
-<pre><code class="py">def cocktail_shaker_sort(arr):
-    start = 0             # сол жақ шекара
-    end = len(arr) - 1    # оң жақ шекара
-    swapped = True        # алмастыру болды ма?</code></pre>
-          <p><code>start</code> пен <code>end</code> әлі сұрыпталмаған бөліктің сол және оң шекарасын сақтайды. <code>swapped</code> соңғы өтуде алмастыру болған-болмағанын есте ұстайды.</p>
+<pre><code class="py">start = 0             # сол жақ шекара
+end = len(arr) - 1    # оң жақ шекара
+swapped = True        # алмастыру болды ма?</code></pre>
+          <p><code>start</code> пен <code>end</code> сол және оң жақ шекараны сақтайды, соңғы индекс <code>len(arr) - 1</code>. <code>swapped</code> белгісі: өтуде алмастыру болмаса, массив сұрыпталған және цикл ерте аяқталады.</p>
         </div>
         <div class="block t2">
-          <div class="tag"><b>2</b>Салыстыру</div>
-<pre><code class="py">    while swapped:
-        swapped = False
-        # → солдан оңға өту
-        for i in range(start, end):
-            if arr[i] &gt; arr[i + 1]:</code></pre>
-          <p>Цикл солдан оңға жүріп, әр элементті оң жақтағы көршісімен салыстырады. Сол жағы үлкен болса, жұп дұрыс тұрған жоқ. Кері өту де дәл осылай салыстырады, тек оңнан солға жүреді.</p>
+          <div class="tag"><b>2</b>Негізгі цикл</div>
+<pre><code class="py">while swapped:
+    swapped = False</code></pre>
+          <p>Цикл <code>swapped</code> мәні <code>True</code> болғанша жұмыс істейді. Әр итерацияның басында оны <code>False</code> етеміз: толық өтуде (оңға да, солға да) ештеңе алмаспаса, цикл аяқталады.</p>
+        </div>
+        <div class="block t3">
+          <div class="tag"><b>3</b>Бірінші өту: солдан оңға →</div>
+<pre><code class="py">for i in range(start, end):
+    if arr[i] &gt; arr[i + 1]:
+        arr[i], arr[i + 1] = arr[i + 1], arr[i]
+        swapped = True</code></pre>
+          <p>Цикл <code>start</code>-тан <code>end</code>-ке дейін жүріп, көрші <code>arr[i]</code> мен <code>arr[i + 1]</code> элементтерін салыстырады. Сол жағы үлкен болса, орнын алмастырады, сондықтан ең үлкен элемент соңына жетеді.</p>
+        </div>
+        <div class="block t4">
+          <div class="tag"><b>4</b>Тексеру және шекараны жылжыту</div>
+<pre><code class="py">if not swapped:
+    break       # алмастыру жоқ: массив сұрыпталған
+end -= 1        # ең үлкен элемент өз орнында
+swapped = False</code></pre>
+          <p>Алмастыру болмаса, массив сұрыпталған: <code>break</code> арқылы шығамыз. Болса, <code>end -= 1</code> оң шекараны азайтады, ал <code>swapped</code> кері өтуден бұрын қайта <code>False</code> болады.</p>
         </div>
       </div>
     </div>
@@ -322,58 +345,61 @@ nav { flex: none; display: flex; align-items: center; justify-content: space-bet
     <div class="inner">
       <div class="head">
         <div class="eyebrow">Код · 2-бөлім</div>
-        <h1>Алмастыру және нәтиже</h1>
+        <h1>Кері өту және нәтиже</h1>
       </div>
-      <div class="code-grid">
+      <div class="code-grid dense">
         <div class="col">
-          <div class="block t3">
-            <div class="tag"><b>3</b>Алмастыру</div>
-<pre><code class="py"># → солдан оңға өтуде
-arr[i], arr[i + 1] = arr[i + 1], arr[i]
-swapped = True
-
-# ← оңнан солға өтуде
-arr[i], arr[i + 1] = arr[i + 1], arr[i]
-swapped = True</code></pre>
-            <p>Екі бағытта да алмастыру бірдей. Оңға өтуде ең үлкен элемент соңына, солға өтуде ең кіші элемент басына жылжиды.</p>
+          <div class="block t5">
+            <div class="tag"><b>5</b>Екінші өту: оңнан солға ←</div>
+<pre><code class="py">for i in range(end - 1, start - 1, -1):
+    if arr[i] &gt; arr[i + 1]:
+        arr[i], arr[i + 1] = arr[i + 1], arr[i]
+        swapped = True</code></pre>
+            <p>Енді алгоритм кері жүреді: <code>end - 1</code>-ден <code>start</code>-қа дейін. Сол жақ элемент үлкен болса, орнын алмастырады, сондықтан ең кіші элемент басына жетеді.</p>
           </div>
-          <div class="block t4">
-            <div class="tag"><b>4</b>Тізімді қайтару</div>
+          <div class="row2">
+            <div class="block t6">
+              <div class="tag"><b>6</b>Сол шекараны жылжыту</div>
+<pre><code class="py">start += 1</code></pre>
+              <p>Кері өтуден кейін ең кіші элемент орнында тұр, <code>start</code> бірге артады.</p>
+            </div>
+            <div class="block t4">
+              <div class="tag"><b>7</b>Тізімді қайтару</div>
 <pre><code class="py">return arr</code></pre>
-            <p>Алмастыру болмаған соң цикл тоқтайды, функция сұрыпталған тізімді қайтарады.</p>
+              <p>Цикл аяқталған соң функция сұрыпталған тізімді қайтарады.</p>
+            </div>
           </div>
         </div>
         <div class="block t0 full">
           <div class="tag"><b>▶</b>Толық код</div>
-          <p class="legend2"><i></i>Алмастыру орындары: екі бағытта да</p>
 <pre tabindex="0"><code class="py">def cocktail_shaker_sort(arr):
     # 1. Айнымалыларды жариялау
     start = 0
     end = len(arr) - 1
     swapped = True
 
+    # 2. Негізгі цикл
     while swapped:
         swapped = False
-        # → солдан оңға өту
+        # 3. Бірінші өту: солдан оңға →
         for i in range(start, end):
-            # 2. Салыстыру
             if arr[i] &gt; arr[i + 1]:
-                # 3. Алмастыру
                 arr[i], arr[i + 1] = arr[i + 1], arr[i]
                 swapped = True
+        # 4. Тексеру және шекараны жылжыту
         if not swapped:
             break       # алмастыру жоқ: массив сұрыпталған
         end -= 1        # ең үлкен элемент өз орнында
         swapped = False
-        # ← оңнан солға өту
+        # 5. Екінші өту: оңнан солға ←
         for i in range(end - 1, start - 1, -1):
             if arr[i] &gt; arr[i + 1]:
-                # 3. Алмастыру
                 arr[i], arr[i + 1] = arr[i + 1], arr[i]
                 swapped = True
+        # 6. Сол шекараны жылжыту
         start += 1      # ең кіші элемент өз орнында
 
-    # 4. Тізімді қайтару
+    # 7. Тізімді қайтару
     return arr</code></pre>
         </div>
       </div>
